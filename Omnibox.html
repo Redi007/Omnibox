@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="light-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnibox</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="content">
+        <h1>Omnibox Demo</h1>
+        <p>Use the omnibox to search, navigate, or run commands on this website.</p>
+        <p>Press <kbd>Ctrl+K</kbd> or click the icon below to get started.</p>
+        <!-- Your website content goes here -->
+    </div>
+
+    <!-- Omnibox container -->
+    <div id="omnibox-overlay" class="hidden">
+        <div id="omnibox-container">
+            <div id="omnibox-header">
+                <div id="omnibox-search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <input type="text" id="omnibox-input" placeholder="Search, navigate, or run a command...">
+                <div id="omnibox-close" role="button" tabindex="0">
+                    <kbd>ESC</kbd>
+                </div>
+            </div>
+            <div id="omnibox-results">
+                <!-- Results will be populated dynamically -->
+                <div id="omnibox-loading" class="omnibox-loading hidden">
+                    <div class="omnibox-loading-spinner"></div>
+                </div>
+            </div>
+            <div id="omnibox-footer">
+                <div id="omnibox-help">
+                    <span class="key">↑↓</span> to navigate
+                    <span class="key">Tab</span> to cycle
+                    <span class="key">Enter</span> to select
+                    <span class="key">Esc</span> to close
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating keyboard shortcut hint -->
+    <div id="omnibox-hint" class="omnibox-hint" role="button" tabindex="0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <kbd><span id="omnibox-shortcut-key">Ctrl + K</span></kbd>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

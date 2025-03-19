@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* CSS Variables for Theming */
+:root {
+    /* Light Theme Colors */
+    --bg-color: #f8f8f8;
+    --text-color: #222222;
+    --subtle-text: #555555;
+    --border-color: #e0e0e0;
+    --highlight-bg: #f0f0f0;
+    --highlight-border: #222222;
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --card-bg: #ffffff;
+    --input-bg: transparent;
+    --kbd-bg: rgba(0, 0, 0, 0.05);
+    --kbd-border: rgba(0, 0, 0, 0.1);
+    --kbd-color: #333;
+    --hint-bg: rgba(0, 0, 0, 0.75);
+    --hint-color: white;
+    --spinner-color: #222;
+}
+
+/* Dark Theme Colors */
+.dark-theme {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --subtle-text: #a0a0a0;
+    --border-color: #333333;
+    --highlight-bg: #2a2a2a;
+    --highlight-border: #787878;
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --card-bg: #252525;
+    --input-bg: transparent;
+    --kbd-bg: rgba(255, 255, 255, 0.1);
+    --kbd-border: rgba(255, 255, 255, 0.2);
+    --kbd-color: #f0f0f0;
+    --hint-bg: rgba(50, 50, 50, 0.9);
+    --hint-color: #f0f0f0;
+    --spinner-color: #a0a0a0;
+}
+
+/* Reset and general styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+kbd {
+    background-color: var(--kbd-bg);
+    border: 1px solid var(--kbd-border);
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    color: var(--kbd-color);
+    display: inline-block;
+    font-size: 0.8rem;
+    font-family: monospace;
+    line-height: 1;
+    padding: 0.2rem 0.4rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+/* Improved animations for omnibox */
+#omnibox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-bg);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10vh;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+#omnibox-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#omnibox-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin: 0 1rem;
+    transform: translateY(0);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s ease;
+}
+
+#omnibox-overlay.hidden #omnibox-container {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+/* Omnibox Header */
+#omnibox-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+#omnibox-search-icon {
+    color: var(--subtle-text);
+    margin-right: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+#omnibox-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    background: var(--input-bg);
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+#omnibox-input::placeholder {
+    color: var(--subtle-text);
+    opacity: 0.8;
+}
+
+#omnibox-close {
+    margin-left: 0.5rem;
+    color: var(--subtle-text);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.3s ease;
+}
+
+#omnibox-close:hover {
+    background-color: var(--highlight-bg);
+}
+
+/* Omnibox Results */
+#omnibox-results {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+}
+
+.omnibox-result {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    animation: slideIn 0.2s ease forwards;
+    opacity: 0;
+    transform: translateY(10px);
+    border-left: 3px solid transparent;
+}
+
+/* Add animation delay to stagger the appearance of results */
+.omnibox-result:nth-child(1) { animation-delay: 0.05s; }
+.omnibox-result:nth-child(2) { animation-delay: 0.1s; }
+.omnibox-result:nth-child(3) { animation-delay: 0.15s; }
+.omnibox-result:nth-child(4) { animation-delay: 0.2s; }
+.omnibox-result:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.omnibox-result:hover {
+    background-color: var(--highlight-bg);
+    border-left-color: var(--subtle-text);
+}
+
+.omnibox-result.selected {
+    background-color: var(--highlight-bg);
+    border-left: 3px solid var(--highlight-border);
+    transform: translateX(5px);
+}
+
+.omnibox-result-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--subtle-text);
+    transition: color 0.3s ease;
+}
+
+.omnibox-result-content {
+    flex: 1;
+}
+
+.omnibox-result-title {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.omnibox-result-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--subtle-text);
+    transition: color 0.3s ease;
+}
+
+.omnibox-result-shortcut {
+    font-size: 0.8rem;
+    color: var(--subtle-text);
+    transition: color 0.3s ease;
+}
+
+/* Omnibox Footer */
+#omnibox-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    transition: border-color 0.3s ease;
+}
+
+#omnibox-help {
+    font-size: 0.8rem;
+    color: var(--subtle-text);
+    transition: color 0.3s ease;
+}
+
+.key {
+    background-color: var(--kbd-bg);
+    border: 1px solid var(--kbd-border);
+    border-radius: 3px;
+    padding: 0.1rem 0.3rem;
+    margin: 0 0.2rem;
+    font-size: 0.7rem;
+    color: var(--kbd-color);
+    transition: all 0.3s ease;
+}
+
+/* Empty state */
+.omnibox-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--subtle-text);
+    font-style: italic;
+    transition: color 0.3s ease;
+}
+
+/* Loading indicator styles */
+.omnibox-loading {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.omnibox-loading.hidden {
+    display: none;
+}
+
+.omnibox-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--spinner-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    transition: border-color 0.3s ease;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Floating keyboard shortcut hint */
+.omnibox-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--hint-bg);
+    color: var(--hint-color);
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.omnibox-hint svg {
+    stroke: var(--hint-color);
+    transition: stroke 0.3s ease;
+}
+
+.omnibox-hint kbd {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin: 0;
+    font-family: monospace;
+    font-size: 14px;
+    box-shadow: none;
+    color: var(--hint-color);
+}
+
+.omnibox-hint:hover {
+    transform: translateX(-50%) scale(1.05);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.omnibox-hint:hover svg {
+    stroke: var(--bg-color);
+}
+
+.omnibox-hint:hover kbd {
+    color: var(--bg-color);
+}
+
+.omnibox-hint:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+.omnibox-hint.omnibox-hint-hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+    pointer-events: none;
+}
+
+/* Category headers for command groups */
+.omnibox-category {
+    padding: 0.5rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--subtle-text);
+    border-bottom: 1px solid var(--border-color);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    p {
+        font-size: 1.1rem;
+    }
+    
+    .omnibox-hint {
+        bottom: 15px;
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    .omnibox-hint kbd {
+        font-size: 12px;
+    }
+    
+    #omnibox-help {
+        font-size: 0.7rem;
+    }
+    
+    .key {
+        padding: 0.05rem 0.2rem;
+        font-size: 0.6rem;
+        margin: 0 0.1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    #omnibox-overlay {
+        padding-top: 5vh;
+        align-items: flex-start;
+    }
+    
+    #omnibox-container {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+    
+    #omnibox-results {
+        max-height: 50vh;
+    }
+    
+    .omnibox-result {
+        padding: 10px;
+    }
+    
+    #omnibox-header {
+        padding: 0.75rem;
+    }
+    
+    #omnibox-input {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    #omnibox-footer {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .omnibox-result-description {
+        font-size: 0.8rem;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (pointer: coarse) {
+    .omnibox-result {
+        padding: 12px 16px;
+    }
+    
+    #omnibox-close {
+        padding: 8px 12px;
+    }
+    
+    .omnibox-hint {
+        padding: 8px 16px;
+    }
+}
