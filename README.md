@@ -2,9 +2,9 @@
 
 A responsive, keyboard-activated command palette for websites. Allows users to quickly search, navigate, and execute commands using Ctrl+K / Cmd+K.
 
-![Start](https://github.com/Redi007/Omnibox/blob/main/start.png?raw=true)
-![Light](https://github.com/Redi007/Omnibox/blob/main/light.png?raw=true)
-![Dark](https://github.com/Redi007/Omnibox/blob/main/dark.png?raw=true)
+![Start](https://github.com/Redi007/Omnibox/blob/main/images/start.png?raw=true)
+![Light](https://github.com/Redi007/Omnibox/blob/main/images/light.png?raw=true)
+![Dark](https://github.com/Redi007/Omnibox/blob/main/images/dark.png?raw=true)
 
 ## Features
 
