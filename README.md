@@ -26,7 +26,7 @@ A responsive, keyboard-activated command palette for websites. Allows users to q
 <script src="omnibox.js"></script>
 ```
 
-2. Add the HTML markup:
+2. Add the HTML:
 ```html
 <!-- Omnibox container -->
 <div id="omnibox-overlay" class="hidden">
@@ -248,6 +248,3 @@ Works in all modern browsers:
 ## License
 
 MIT License
-
----
-
